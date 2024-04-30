@@ -5,6 +5,7 @@
     justify-content: space-between;
     align-items: center;
     color: $bg-light;
+    box-shadow: inset 1px -32px 43px rgba(0, 0, 0, 0.2); 
     .item {
         flex-grow: 1;
     }
@@ -23,6 +24,7 @@
         }
     }
     .title{
+        margin-left: 4rem;
         font-size: 36px;
         font-weight: 600;        
     }

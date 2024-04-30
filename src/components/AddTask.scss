@@ -1,0 +1,14 @@
+.add-task {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    width: 100%;
+    padding-top: 3rem;
+    .btn-add {
+        background-color: $bg-light;
+        color: $text-dark;
+        &:hover{
+            background-color: $bg-light;
+        }
+    }
+}
