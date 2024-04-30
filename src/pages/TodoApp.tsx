@@ -1,15 +1,20 @@
-import React, { useState } from "react"
+import { 
+    useState,
+    KeyboardEvent,
+    FC,
+    ChangeEvent
+ } from "react"
 import { TodoItem } from "../types/model"
 import TodoList from '../components/TodoList'
 
 
-const TodoApp: React.FC = () => {
+const TodoApp: FC = () => {
     const [tasksList, setTasksList] = useState<TodoItem[]>([])
     const [taskInput, setTaskInput] = useState<string>('')
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         setTaskInput(event.target.value)
     }
-    const handleAddTask = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    const handleAddTask = (event: KeyboardEvent<HTMLInputElement>) => {
         if(event.key === 'Enter') {
             const task: TodoItem = {
                 id: tasksList.length + 1,
