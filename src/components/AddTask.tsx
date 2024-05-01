@@ -24,21 +24,23 @@ const AddTask: FC = () => {
             };
 
             setTasksList([...tasksList, task]);
-            setTaskInput(''); // Clear input after adding task
+            setTaskInput(''); 
         }
     }
     return (
         <div className="add-task">
             <TextField 
               label="Add task"
-              variant="outlined" 
+              variant="filled" 
               sx={{
-                '& .MuiOutlinedInput-root': {
+                '& .MuiFilledInput-root': {
                   backgroundColor: '#51E5FF',
                   fontSize: '18px',
                   fontWeight: '400',
+                  '&:hover': {
+                    backgroundColor: '#51E5FF',
+                  },
                 },
-                
               }}
               value={taskInput} 
               onChange={handleChange}
