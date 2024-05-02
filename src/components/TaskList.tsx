@@ -1,5 +1,4 @@
 import React, { useContext } from 'react' 
-// import { TodoItem } from '@/types/model'
 import { Box, Checkbox, Divider, IconButton, Typography } from '@mui/material'
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditNoteIcon from '@mui/icons-material/EditNote';
