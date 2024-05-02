@@ -2,15 +2,17 @@ import {
     useState,
     KeyboardEvent,
     FC,
-    ChangeEvent
+    ChangeEvent,
+    useContext
  } from "react"
 import { TodoItem } from "../types/model"
 import { Button, TextField } from "@mui/material"
 import "@/components/AddTask.scss"
+import { TasksContext } from '@/contexts/TaskListContext';
 
 
 const AddTask: FC = () => {
-    const [tasksList, setTasksList] = useState<TodoItem[]>([])
+  const { taskList, setTaskList} = useContext(TasksContext)
     const [taskInput, setTaskInput] = useState<string>('')
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         setTaskInput(event.target.value)
@@ -18,12 +20,12 @@ const AddTask: FC = () => {
     const handleAddTask = (event: KeyboardEvent<HTMLInputElement>) => {
         if(event.key === 'Enter') {
             const task: TodoItem = {
-                id: tasksList.length + 1,
+                id: taskList.length + 1,
                 task: taskInput,
                 isCompleted: false
             };
 
-            setTasksList([...tasksList, task]);
+            setTaskList([...taskList, task]);
             setTaskInput(''); 
         }
     }
