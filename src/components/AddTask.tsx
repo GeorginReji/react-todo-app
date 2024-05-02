@@ -39,9 +39,9 @@ const AddTask: FC = () => {
                   backgroundColor: '#51E5FF',
                   fontSize: '18px',
                   fontWeight: '400',
-                  '&:hover': {
-                    backgroundColor: '#51E5FF',
-                  },
+                  '.MUI-focused': {
+                    backgroundColor: '#51E5FF'
+                  }
                 },
               }}
               value={taskInput} 

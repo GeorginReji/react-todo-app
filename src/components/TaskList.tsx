@@ -7,7 +7,13 @@ import '@/components/TaskList.scss'
 import { TasksContext } from '@/contexts/TaskListContext';
 
 const TaskList: React.FC = () => {
-  const {taskList} = useContext(TasksContext)
+  const {taskList, toggleTaskComplete} = useContext(TasksContext)
+  const handleCheckboxChange = (index: number) => (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const { checked } = event.target;
+    toggleTaskComplete(index, checked);
+  };
     return (
         <Box className="task-list-container">
            <>
@@ -16,9 +22,16 @@ const TaskList: React.FC = () => {
           <div key={index}>
             <Box className="task-container">
               <Checkbox
+                onChange={handleCheckboxChange(index)}
                 sx={{ '& .MuiSvgIcon-root': { fontSize: 28 } }} />
               <Box className="task-name">
-                <Typography variant='h5' color={'white'}>
+                <Typography
+                  variant='h5'
+                  color={'white'}
+                  sx={{
+                    textDecoration: task.isCompleted ? 'line-through': 'none'
+                  }}
+                >
                   {task.task}
                 </Typography>
               </Box>
