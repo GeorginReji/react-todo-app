@@ -4,12 +4,14 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditNoteIcon from '@mui/icons-material/EditNote';
 import '@/components/TaskList.scss'
 import { TasksContext } from '@/contexts/TaskListContext'
-import { TypeNotification } from '@/types/model'
+import { TypeNotification, TypeConfirmDialog } from '@/types/model'
 import Notification from '@/components/utils/NotificationAlert'
+import ConfirmationDialog from '@/components/utils/ConfirmDialog'
 
 const TaskList: React.FC = () => {
   const [updateValue, setUpdateValue] = useState<string>('')
   const [notify, setNotify] = useState<TypeNotification>({ isOpen: false, type: "warning", message: "" })
+  const [confirmDialog, setConfirmDialog] = useState<TypeConfirmDialog>({isOpen: false, title: '', description: '', onConfirm: () =>{}})
   const {taskList, toggleTaskComplete, enableEdit, updateTask, deleteTask } = useContext(TasksContext)
   // check as complete 
   const handleCheckboxChange = (index: number) => (
@@ -44,6 +46,18 @@ const TaskList: React.FC = () => {
           type: 'success'
         })
     }
+  }
+  const handleDelete = (id: number) => {
+    deleteTask(id)
+    setNotify({
+      isOpen: true,
+      message: 'Task deleted',
+      type: 'error'
+    })
+    setConfirmDialog({
+      ...confirmDialog,
+      isOpen: false
+    })
   }
     return (
         <Box className="task-list-container">
@@ -95,14 +109,12 @@ const TaskList: React.FC = () => {
               </Box>
               <Box className="task-btn-container">
                 <IconButton 
-                  onClick={() => {
-                    deleteTask(task.id)
-                    setNotify({
-                      isOpen: true,
-                      message: 'Task deleted',
-                      type: 'error'
-                    })
-                  }} 
+                  onClick={() => {setConfirmDialog({
+                    isOpen: true,
+                    title: 'Delete Task',
+                    description: 'Do you want to permanently remove the task',
+                    onConfirm: () => handleDelete(task.id)
+                  })}} 
                   style={{ backgroundColor: '#67737D' }}>
                   <DeleteIcon fontSize='medium' />
                 </IconButton>
@@ -121,6 +133,7 @@ const TaskList: React.FC = () => {
       )}
     </>
          <Notification notify={notify} setNotify={setNotify}/>
+         <ConfirmationDialog confirmDialog={confirmDialog} setConfirmDialog={setConfirmDialog}  />
       </Box>
     )
 }

@@ -1,37 +1,38 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
+import DialogTitle from '@mui/material/DialogTitle'
+import { TypeConfirmDialog } from '@/types/model';
 
-const ConfirmationDialog: React.FC = () => {
-  const [open, setOpen] = useState<boolean>(false);
+type propConfirmDialog = {
+    confirmDialog: TypeConfirmDialog
+    setConfirmDialog: React.Dispatch<React.SetStateAction<TypeConfirmDialog>>
+} 
 
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const handleConfirm = () => {
-    // Add your confirmation logic here
-    console.log("Confirmed!");
-    setOpen(false);
-  };
+const ConfirmationDialog: React.FC<propConfirmDialog> = ({confirmDialog, setConfirmDialog}) => {
 
   return (
-      <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Confirmation</DialogTitle>
+      <Dialog open={confirmDialog.isOpen} onClose={()=>confirmDialog.isOpen}>
+        <DialogTitle>{confirmDialog.title}</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Are you sure you want to perform this action?
+            {confirmDialog.description}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
+          <Button 
+            onClick={() => setConfirmDialog({
+            ...confirmDialog,
+            isOpen: false
+            })} 
+            color="primary"
+          >
             Cancel
           </Button>
-          <Button onClick={handleConfirm} color="primary" autoFocus>
+          <Button onClick={confirmDialog.onConfirm} color="primary" autoFocus>
             Confirm
           </Button>
         </DialogActions>

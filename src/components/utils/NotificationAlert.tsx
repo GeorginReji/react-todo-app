@@ -2,12 +2,12 @@ import React, { FC, JSX } from "react";
 import { TypeNotification } from "@/types/model";
 import { Alert, Snackbar } from "@mui/material"
 
-type NotificationType = {
+type PropNotification = {
     notify: TypeNotification
     setNotify: React.Dispatch<React.SetStateAction<TypeNotification>>
 }
 
-const NotificationAlert: FC<NotificationType> = ({ notify, setNotify }): JSX.Element => {
+const NotificationAlert: FC<PropNotification> = ({ notify, setNotify }): JSX.Element => {
     return (
         <div>
             <Snackbar open={notify.isOpen} 

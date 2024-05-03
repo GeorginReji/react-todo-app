@@ -10,4 +10,11 @@ interface TypeNotification {
     message: string
 }
 
-export  type { TodoItem, TypeNotification }
+interface TypeConfirmDialog {
+    isOpen: boolean
+    title: string
+    description: string
+    onConfirm: () => void
+}
+
+export  type { TodoItem, TypeNotification, TypeConfirmDialog }
