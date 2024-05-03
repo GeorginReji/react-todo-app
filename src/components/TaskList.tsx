@@ -3,10 +3,13 @@ import { Box, Checkbox, Divider, IconButton, TextField, Typography } from '@mui/
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditNoteIcon from '@mui/icons-material/EditNote';
 import '@/components/TaskList.scss'
-import { TasksContext } from '@/contexts/TaskListContext';
+import { TasksContext } from '@/contexts/TaskListContext'
+import { TypeNotification } from '@/types/model'
+import Notification from '@/components/utils/NotificationAlert'
 
 const TaskList: React.FC = () => {
   const [updateValue, setUpdateValue] = useState<string>('')
+  const [notify, setNotify] = useState<TypeNotification>({ isOpen: false, type: "warning", message: "" })
   const {taskList, toggleTaskComplete, enableEdit, updateTask, deleteTask } = useContext(TasksContext)
   // check as complete 
   const handleCheckboxChange = (index: number) => (
@@ -14,6 +17,16 @@ const TaskList: React.FC = () => {
   ) => {
     const { checked } = event.target;
     toggleTaskComplete(index, checked);
+    checked ? setNotify({
+      isOpen: true,
+      message: 'Task completed👏',
+      type: 'success'
+    }):
+    setNotify({
+      isOpen: true,
+      message: 'Task pending 💔',
+      type: 'warning'
+    })
   }
   // enable edit for task
   const handleEditEnable = (id: number, task:string) => {
@@ -24,10 +37,14 @@ const TaskList: React.FC = () => {
   const updateEditValue = (id: number) => (event: KeyboardEvent<HTMLInputElement>) => {
     if(event.key === 'Enter') {
         updateTask(id, updateValue)
-        setUpdateValue(''); 
+        setUpdateValue('')
+        setNotify({
+          isOpen: true,
+          message: 'Task updated',
+          type: 'success'
+        })
     }
   }
-
     return (
         <Box className="task-list-container">
            <>
@@ -77,7 +94,16 @@ const TaskList: React.FC = () => {
                 }
               </Box>
               <Box className="task-btn-container">
-                <IconButton onClick={() => deleteTask(task.id)} style={{ backgroundColor: '#67737D' }}>
+                <IconButton 
+                  onClick={() => {
+                    deleteTask(task.id)
+                    setNotify({
+                      isOpen: true,
+                      message: 'Task deleted',
+                      type: 'error'
+                    })
+                  }} 
+                  style={{ backgroundColor: '#67737D' }}>
                   <DeleteIcon fontSize='medium' />
                 </IconButton>
                 <IconButton onClick={() => handleEditEnable(task.id, task.task)} style={{ backgroundColor: '#67737D' }}>
@@ -94,7 +120,7 @@ const TaskList: React.FC = () => {
         <Typography margin={'10px'} variant='h4' color={'white'}>No Tasks to show</Typography>
       )}
     </>
-         
+         <Notification notify={notify} setNotify={setNotify}/>
       </Box>
     )
 }
