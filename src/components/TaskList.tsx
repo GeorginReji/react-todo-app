@@ -7,7 +7,7 @@ import { TasksContext } from '@/contexts/TaskListContext';
 
 const TaskList: React.FC = () => {
   const [updateValue, setUpdateValue] = useState<string>('')
-  const {taskList, toggleTaskComplete, enableEdit, updateTask} = useContext(TasksContext)
+  const {taskList, toggleTaskComplete, enableEdit, updateTask, deleteTask } = useContext(TasksContext)
   // check as complete 
   const handleCheckboxChange = (index: number) => (
     event: React.ChangeEvent<HTMLInputElement>
@@ -77,7 +77,7 @@ const TaskList: React.FC = () => {
                 }
               </Box>
               <Box className="task-btn-container">
-                <IconButton style={{ backgroundColor: '#67737D' }}>
+                <IconButton onClick={() => deleteTask(task.id)} style={{ backgroundColor: '#67737D' }}>
                   <DeleteIcon fontSize='medium' />
                 </IconButton>
                 <IconButton onClick={() => handleEditEnable(task.id, task.task)} style={{ backgroundColor: '#67737D' }}>

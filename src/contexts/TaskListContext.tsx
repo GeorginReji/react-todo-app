@@ -9,6 +9,7 @@ type TaskListType = {
     addTask: (task: string) => void
     updateTask: (id: number, task: string) => void
     enableEdit: (id: number) => void
+    deleteTask: (id: number) => void
 };
 
 // Create the context with an initial value
@@ -18,13 +19,25 @@ const TasksContext = createContext<TaskListType>({
   toggleTaskComplete: () => {},
   addTask: () => {},
   updateTask: () => {},
-  enableEdit: () => {}
+  enableEdit: () => {},
+  deleteTask: () => {}
 });
 
 
 // Provider component
 const TaskContextProvider: React.FC<{children: ReactNode}> = ({ children }): JSX.Element => {
   const [taskList, setTaskList] = useState<TodoItem[]>([]);
+
+  //create new task
+  const addTask = (task: string)=> {
+    const newTask: TodoItem = {
+        id: taskList.length + 1,
+        task: task,
+        isCompleted: false,
+        editable: false
+    };
+    setTaskList([...taskList, newTask])
+  }
   //Update checkbox   
   const toggleTaskComplete = (index: number, checked: boolean) => {
     setTaskList(prevTaskList => {
@@ -48,16 +61,6 @@ const TaskContextProvider: React.FC<{children: ReactNode}> = ({ children }): JSX
         return updatedTaskList;
       });
      }
-  //create new task
-  const addTask = (task: string)=> {
-    const newTask: TodoItem = {
-        id: taskList.length + 1,
-        task: task,
-        isCompleted: false,
-        editable: false
-    };
-    setTaskList([...taskList, newTask])
-  }
   //update new task
   const updateTask = (id:number, task:string) => {
     const index = taskList.findIndex((item:TodoItem) => item.id === id)
@@ -71,13 +74,19 @@ const TaskContextProvider: React.FC<{children: ReactNode}> = ({ children }): JSX
         return updatedTaskList;
       });
   }
+  //delete task
+  const deleteTask = (id: number) => {
+    const removedList = taskList.filter((task: TodoItem) => task.id !== id)
+    setTaskList(removedList)
+  }
 const value = { 
                 taskList, 
                 setTaskList, 
                 toggleTaskComplete, 
                 addTask, 
                 updateTask,
-                enableEdit
+                enableEdit,
+                deleteTask
             }
 
   return (
