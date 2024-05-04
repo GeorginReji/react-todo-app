@@ -9,4 +9,11 @@ export default defineConfig({
       '@': '/src', // Creates an alias to src folder
     },
   },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: `@import "./src/assets/styles/variables.scss";`
+      }
+    }
+  }
 })
