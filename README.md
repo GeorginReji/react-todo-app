@@ -2,7 +2,7 @@
 
 This is a todo application to which contain many best practices belonging to large scale projects.
 
-(./assets/images/ReactTodoUI.png)[Screenshot of UI]
+![Screenshot of UI](./assets/images/ReactTodoUI.png)
 
 
 ## Feature 
