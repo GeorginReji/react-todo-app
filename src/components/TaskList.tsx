@@ -1,5 +1,5 @@
-import React, { ChangeEvent, useContext, useState,KeyboardEvent } from 'react' 
-import { Box, Checkbox, Divider, IconButton, TextField, Typography } from '@mui/material'
+import React, { useContext, useState,KeyboardEvent } from 'react' 
+import { Box, Checkbox, Divider, IconButton, Typography } from '@mui/material'
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditNoteIcon from '@mui/icons-material/EditNote';
 import '@/components/TaskList.scss'
@@ -7,6 +7,8 @@ import { TasksContext } from '@/contexts/TaskListContext'
 import { TypeNotification, TypeConfirmDialog } from '@/types/model'
 import Notification from '@/components/utils/NotificationAlert'
 import ConfirmationDialog from '@/components/utils/ConfirmDialog'
+import InputField from '@/components/utils/InputField'
+
 
 const TaskList: React.FC = () => {
   const [updateValue, setUpdateValue] = useState<string>('')
@@ -71,27 +73,7 @@ const TaskList: React.FC = () => {
                 sx={{ '& .MuiSvgIcon-root': { fontSize: 28 } }} />
               <Box className="task-name">
                 {task.editable? (
-                  <TextField 
-                  label="Add task"
-                  variant="filled" 
-                  value={updateValue}
-                  onChange={(e: ChangeEvent<HTMLInputElement>) => 
-                    setUpdateValue(e.target.value)}
-                  onKeyUp={updateEditValue(task.id)}
-                  sx={{
-                    '& .MuiFilledInput-root': {
-                      backgroundColor: '#51E5FF',
-                      fontSize: '18px',
-                      fontWeight: '400',
-                      '&:hover': {
-                        backgroundColor: '#51E5FF'
-                      },
-                      '.Mui-focused': {
-                        backgroundColor: '#51E5FF'
-                      }
-                    },
-                  }}
-                />
+                  <InputField taskInput={updateValue} setTaskInput={setUpdateValue} handleKeyUp={updateEditValue(task.id)} />
                 ):
                 (
                   <Typography
